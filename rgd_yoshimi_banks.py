@@ -21,11 +21,11 @@ xml_template_string = """<rosegarden-data version="4-0.9.1">
             <control name="Reverb" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="91" colourindex="3" ipbposition="3"/>
             <control name="Sustain" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="64" colourindex="4" ipbposition="-1"/>
             <control name="Expression" type="controller" description="&lt;none&gt;" min="0" max="127" default="100" controllervalue="11" colourindex="2" ipbposition="-1"/>
-            <control name="Cutoff Freq" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="74" colourindex="2" ipbposition="4"/>
-            <control name="Resonance" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="71" colourindex="2" ipbposition="4"/>
-            <control name="Attack time" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="73" colourindex="2" ipbposition="4"/>
-            <control name="Release time" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="72" colourindex="2" ipbposition="4"/>
             <control name="Modulation" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="1" colourindex="4" ipbposition="-1"/>
+            <control name="Cutoff Freq" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="74" colourindex="2" ipbposition="2"/>
+            <control name="Resonance" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="71" colourindex="2" ipbposition="2"/>
+            <control name="Attack time" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="73" colourindex="2" ipbposition="2"/>
+            <control name="Release time" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="72" colourindex="2" ipbposition="2"/>
             <control name="PitchBend" type="pitchbend" description="&lt;none&gt;" min="0" max="16383" default="8192" controllervalue="1" colourindex="4" ipbposition="-1"/>
         </controls>
     </device>
@@ -34,6 +34,9 @@ xml_template_string = """<rosegarden-data version="4-0.9.1">
 """
 
 def make_bank_xml_element(bank_dir, bank_num):
+    """ takes the root bank dir and the number (as in yoshimi) and creates
+    <bank> and all the <program> elements for each bank
+    """
     bank_name = os.path.split(bank_dir)[1]
     b_el = ET.fromstring("""<bank name="" percussion="false" msb=""
     lsb="0"/>""")
@@ -69,8 +72,7 @@ args = arg_parser.parse_args()
 bank_root_dir = args.bank_root_dir
 out_file = args.output_rgd_file
 
-print(bank_root_dir)
-print(out_file)
+print("Searching for banks in %s\n") % (bank_root_dir)
 # Set-up XML file
 xml_string = StringIO.StringIO(xml_template_string)
 tree = ET.parse(xml_string)
@@ -80,6 +82,7 @@ device_el = root.findall(".//device")[0]
 bank_list = sorted(os.listdir(bank_root_dir))
 step = 128 / (len(bank_list) + 2)
 this_num = 0
+print("Generating XML file structure...\n")
 for b in bank_list:
     this_num += step
     new_bank_el = make_bank_xml_element(os.path.join(bank_root_dir, b),
@@ -92,9 +95,10 @@ output_string = xml_header_string + s
 
 temp_dir = tempfile.gettempdir()
 xml_file = os.path.join(temp_dir, "Yoshimi")
+print("Saving to %s") % (out_file)
 with open(xml_file, "w") as f:
     f.write(output_string)
-with open(xml_file, 'rb') as f_in, gzip.open(output_rgd_file, 'wb') as f_out:
+with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
     shutil.copyfileobj(f_in, f_out)
 
 
