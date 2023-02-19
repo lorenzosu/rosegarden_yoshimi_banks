@@ -2,7 +2,7 @@
 import os
 import sys
 import argparse
-import StringIO
+import io
 import tempfile
 import gzip
 import shutil
@@ -71,10 +71,11 @@ args = arg_parser.parse_args()
 
 bank_root_dir = args.bank_root_dir
 out_file = args.output_rgd_file
+print(bank_root_dir)
 
-print("Searching for banks in %s\n") % (bank_root_dir)
+print(f"Searching for banks in {bank_root_dir}\n")
 # Set-up XML file
-xml_string = StringIO.StringIO(xml_template_string)
+xml_string = io.StringIO(xml_template_string)
 tree = ET.parse(xml_string)
 root = tree.getroot()
 device_el = root.findall(".//device")[0]
@@ -90,12 +91,13 @@ for b in bank_list:
     new_bank_el.tail = "\n    "
     device_el.append(new_bank_el)
 
-s = ET.tostring(root)
-output_string = xml_header_string + s
+eltree_string = ET.tostring(root)
+print(type(eltree_string))
+output_string = xml_header_string + eltree_string.decode('utf-8')
 
 temp_dir = tempfile.gettempdir()
 xml_file = os.path.join(temp_dir, "Yoshimi")
-print("Saving to %s") % (out_file)
+print(f"Saving to {out_file}")
 with open(xml_file, "w") as f:
     f.write(output_string)
 with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
