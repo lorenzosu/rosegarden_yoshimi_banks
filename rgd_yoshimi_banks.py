@@ -69,11 +69,10 @@ arg_parser.add_argument("bank_root_dir")
 arg_parser.add_argument("output_rgd_file")
 arg_parser.add_argument('--debug', action='store_true')
 args = arg_parser.parse_args()
-print(args)
+#print(args)
 
 bank_root_dir = args.bank_root_dir
 out_file = args.output_rgd_file
-print(bank_root_dir)
 
 print(f"Searching for banks in {bank_root_dir}\n")
 # Set-up XML file
@@ -83,9 +82,7 @@ root = tree.getroot()
 device_el = root.findall(".//device")[0]
 
 bank_list = sorted(os.listdir(bank_root_dir))
-#step = 128 / (len(bank_list) + 2)
 step = 5
-print(step)
 this_num = 0
 print("Generating XML file structure...\n")
 for b in bank_list:
@@ -98,7 +95,6 @@ for b in bank_list:
     device_el.append(new_bank_el)
 
 eltree_string = ET.tostring(root)
-print(type(eltree_string))
 output_string = xml_header_string + eltree_string.decode('utf-8')
 
 temp_dir = tempfile.gettempdir()
