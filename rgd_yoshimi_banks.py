@@ -67,7 +67,9 @@ def make_bank_xml_element(bank_dir, bank_num):
 arg_parser = argparse.ArgumentParser()
 arg_parser.add_argument("bank_root_dir")
 arg_parser.add_argument("output_rgd_file")
+arg_parser.add_argument('--debug', action='store_true')
 args = arg_parser.parse_args()
+print(args)
 
 bank_root_dir = args.bank_root_dir
 out_file = args.output_rgd_file
@@ -81,13 +83,17 @@ root = tree.getroot()
 device_el = root.findall(".//device")[0]
 
 bank_list = sorted(os.listdir(bank_root_dir))
-step = 128 / (len(bank_list) + 2)
+#step = 128 / (len(bank_list) + 2)
+step = 5
+print(step)
 this_num = 0
 print("Generating XML file structure...\n")
 for b in bank_list:
     this_num += step
-    new_bank_el = make_bank_xml_element(os.path.join(bank_root_dir, b),
-        str(this_num))
+    new_bank_el = make_bank_xml_element(
+        os.path.join(bank_root_dir, b),
+        str(this_num)
+        )
     new_bank_el.tail = "\n    "
     device_el.append(new_bank_el)
 
@@ -100,7 +106,11 @@ xml_file = os.path.join(temp_dir, "Yoshimi")
 print(f"Saving to {out_file}")
 with open(xml_file, "w") as f:
     f.write(output_string)
+
 with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
     shutil.copyfileobj(f_in, f_out)
-
-
+# If degugging also save the XML file
+if args.debug:
+    xml_debug_file = 'rgd_yoshimi_banks.xml'
+    print(f'Saving debug XML file: {xml_debug_file}')
+    shutil.copy(xml_file, os.path.join('.', xml_debug_file))
