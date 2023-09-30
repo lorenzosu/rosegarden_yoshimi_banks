@@ -1,6 +1,9 @@
 #!/usr/bin/env python
+"""
+A script to generate Rosegarden .rgd instrument files pasring the direcory
+structure of Yoshimi banks
+"""
 import os
-import sys
 import argparse
 import io
 import tempfile
@@ -8,9 +11,9 @@ import gzip
 import shutil
 import xml.etree.ElementTree as ET
 
-xml_header_string = """<?xml version="1.0" encoding="UTF-8"?>
+XML_HEADER_STRING = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rosegarden-data>"""
-xml_template_string = """<rosegarden-data version="4-0.9.1">
+XML_TEMPLATE_STRING = """<rosegarden-data version="4-0.9.1">
     <studio thrufilter="0" recordfilter="0">
     <device id="0" name="Yoshimi" direction="play" variation="LSB" type="midi">
         <librarian name="Lorenzo Sutton" email="lorenzofsutton@gmail.com"/>
@@ -64,49 +67,50 @@ def make_bank_xml_element(bank_dir, bank_num):
         b_el.append(p_el)
     return b_el
 
-arg_parser = argparse.ArgumentParser()
-arg_parser.add_argument("bank_root_dir")
-arg_parser.add_argument("output_rgd_file")
-arg_parser.add_argument('--debug', action='store_true')
-args = arg_parser.parse_args()
-#print(args)
+if __name__ == "__main__":
+    # Parse arguments in partigular root dir for banks and the output rgd file
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("bank_root_dir")
+    arg_parser.add_argument("output_rgd_file")
+    arg_parser.add_argument('--debug', action='store_true')
+    args = arg_parser.parse_args()
 
-bank_root_dir = args.bank_root_dir
-out_file = args.output_rgd_file
+    bank_root_dir = args.bank_root_dir
+    out_file = args.output_rgd_file
 
-print(f"Searching for banks in {bank_root_dir}\n")
-# Set-up XML file
-xml_string = io.StringIO(xml_template_string)
-tree = ET.parse(xml_string)
-root = tree.getroot()
-device_el = root.findall(".//device")[0]
+    print(f"Searching for banks in {bank_root_dir}\n")
+    # Set-up XML file
+    xml_string = io.StringIO(XML_TEMPLATE_STRING)
+    tree = ET.parse(xml_string)
+    root = tree.getroot()
+    device_el = root.findall(".//device")[0]
 
-bank_list = sorted(os.listdir(bank_root_dir))
-step = 5
-this_num = 0
-print("Generating XML file structure...\n")
-for b in bank_list:
-    this_num += step
-    new_bank_el = make_bank_xml_element(
-        os.path.join(bank_root_dir, b),
-        str(this_num)
-        )
-    new_bank_el.tail = "\n    "
-    device_el.append(new_bank_el)
+    bank_list = sorted(os.listdir(bank_root_dir))
+    step = 5
+    this_num = 0
+    print("Generating XML file structure...\n")
+    for b in bank_list:
+        this_num += step
+        new_bank_el = make_bank_xml_element(
+            os.path.join(bank_root_dir, b),
+            str(this_num)
+            )
+        new_bank_el.tail = "\n    "
+        device_el.append(new_bank_el)
 
-eltree_string = ET.tostring(root)
-output_string = xml_header_string + eltree_string.decode('utf-8')
+    eltree_string = ET.tostring(root)
+    output_string = XML_HEADER_STRING + eltree_string.decode('utf-8')
 
-temp_dir = tempfile.gettempdir()
-xml_file = os.path.join(temp_dir, "Yoshimi")
-print(f"Saving to {out_file}")
-with open(xml_file, "w") as f:
-    f.write(output_string)
+    temp_dir = tempfile.gettempdir()
+    xml_file = os.path.join(temp_dir, "Yoshimi")
+    print(f"Saving to {out_file}")
+    with open(xml_file, "w") as f:
+        f.write(output_string)
 
-with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
-    shutil.copyfileobj(f_in, f_out)
-# If degugging also save the XML file
-if args.debug:
-    xml_debug_file = 'rgd_yoshimi_banks.xml'
-    print(f'Saving debug XML file: {xml_debug_file}')
-    shutil.copy(xml_file, os.path.join('.', xml_debug_file))
+    with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
+        shutil.copyfileobj(f_in, f_out)
+    # If degugging also save the XML file
+    if args.debug:
+        xml_debug_file = 'rgd_yoshimi_banks.xml'
+        print(f'Saving debug XML file: {xml_debug_file}')
+        shutil.copy(xml_file, os.path.join('.', xml_debug_file))
