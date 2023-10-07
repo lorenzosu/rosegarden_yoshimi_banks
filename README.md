@@ -18,3 +18,7 @@ Bank Change: MSB
 
 Enable Program Change: [Selected]
 ```
+Short demo video:
+
+https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8
+
