@@ -1,5 +1,7 @@
-# .rgd files - we don't want to commit these to the script
+# .rgd files - we don't want to commit these to the script except for the one
+# called Yoshimi.rgd
 *.rgd
+!Yoshimi.rgd
 
 # ignore a clean script used to clean output when testing
 _clean
