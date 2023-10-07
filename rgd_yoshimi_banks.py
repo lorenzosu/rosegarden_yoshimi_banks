@@ -68,14 +68,20 @@ def make_bank_xml_element(bank_dir, bank_num):
         b_el.append(p_el)
     return b_el
 
-if __name__ == "__main__":
-    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+def parse_arguments():
+    """ Parse the command line arguments and returned the parsed argparse """
     # Parse arguments in partigular root dir for banks and the output rgd file
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("bank_root_dir")
     arg_parser.add_argument("output_rgd_file")
     arg_parser.add_argument('--debug', action='store_true')
-    args = arg_parser.parse_args()
+    return arg_parser.parse_args()
+
+
+if __name__ == "__main__":
+    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+
+    args = parse_arguments()
 
     bank_root_dir = args.bank_root_dir
     out_file = args.output_rgd_file
