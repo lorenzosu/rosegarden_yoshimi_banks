@@ -1,3 +1,6 @@
+# .rgd files - we don't want to commit these to the script
+*.rgd
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

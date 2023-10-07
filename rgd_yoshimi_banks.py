@@ -9,6 +9,7 @@ import io
 import tempfile
 import gzip
 import shutil
+import logging
 import xml.etree.ElementTree as ET
 
 XML_HEADER_STRING = """<?xml version="1.0" encoding="UTF-8"?>
@@ -68,6 +69,7 @@ def make_bank_xml_element(bank_dir, bank_num):
     return b_el
 
 if __name__ == "__main__":
+    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
     # Parse arguments in partigular root dir for banks and the output rgd file
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument("bank_root_dir")
@@ -78,7 +80,7 @@ if __name__ == "__main__":
     bank_root_dir = args.bank_root_dir
     out_file = args.output_rgd_file
 
-    print(f"Searching for banks in {bank_root_dir}\n")
+    logging.info("Searching for banks in %s", bank_root_dir)
     # Set-up XML file
     xml_string = io.StringIO(XML_TEMPLATE_STRING)
     tree = ET.parse(xml_string)
@@ -88,7 +90,7 @@ if __name__ == "__main__":
     bank_list = sorted(os.listdir(bank_root_dir))
     step = 5
     this_num = 0
-    print("Generating XML file structure...\n")
+    logging.info("Generating XML file structure...")
     for b in bank_list:
         this_num += step
         new_bank_el = make_bank_xml_element(
@@ -103,7 +105,7 @@ if __name__ == "__main__":
 
     temp_dir = tempfile.gettempdir()
     xml_file = os.path.join(temp_dir, "Yoshimi")
-    print(f"Saving to {out_file}")
+    logging.info("Saving to %s", out_file)
     with open(xml_file, "w") as f:
         f.write(output_string)
 
@@ -112,5 +114,5 @@ if __name__ == "__main__":
     # If degugging also save the XML file
     if args.debug:
         xml_debug_file = 'rgd_yoshimi_banks.xml'
-        print(f'Saving debug XML file: {xml_debug_file}')
+        logging.info(f'Saving debug XML file: {xml_debug_file}')
         shutil.copy(xml_file, os.path.join('.', xml_debug_file))
