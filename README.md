@@ -12,7 +12,9 @@ really use them as they would need an additional controller to be sent)
 
 To make this work in Yoshimi the following settings are needed in the MIDI CC
 tab:
+```
 Bank Root Change: Off
 Bank Change: MSB
 
 Enable Program Change: [Selected]
+```
