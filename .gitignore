@@ -1,6 +1,9 @@
 # .rgd files - we don't want to commit these to the script
 *.rgd
 
+# ignore a clean script used to clean output when testing
+_clean
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
