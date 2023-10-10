@@ -24,15 +24,8 @@ See screenshot:
 <img src="https://raw.githubusercontent.com/lorenzosu/rosegarden_yoshimi_banks/master/yoshimi_settings_screenshot.png" alt="yoshimi screenshot" width="50%">
 
 Short demo video:
-<!-- blank line -->
-<figure class="video_container">
-  <video controls="true" allowfullscreen="true" poster="">
-    <source src="https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8" type="video/mp4">
-  </video>
-</figure>
-<!-- blank line -->
 
-<video width="100%" src="https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8">
+<video width="90%" src="https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8">
 
 Direct Link to Video:
 [https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8](https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8)
