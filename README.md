@@ -21,13 +21,11 @@ Enable Program Change: [Selected]
 
 See screenshot:
 
-<img src="https://raw.githubusercontent.com/lorenzosu/rosegarden_yoshimi_banks/master/yoshimi_settings_screenshot.png" alt="yoshimi screenshot" width="85%">
+<img src="https://raw.githubusercontent.com/lorenzosu/rosegarden_yoshimi_banks/master/yoshimi_settings_screenshot.png" alt="yoshimi screenshot" width="65%">
 
 Short demo video:
 
-<pre class="language-markdown code-snippet focus:outline-none"><div class="absolute top-0 right-0 flex items-center m-2 space-x-2"></div></pre>
-
-<video width="100%" src="https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8">ideo>
+<video width="100%" src="https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8"<video>
 
 Direct Link to Video:
 [https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8](https://github.com/lorenzosu/rosegarden_yoshimi_banks/assets/463937/3ddf9017-2a7c-43d2-83d4-5f9ac855d6c8)
