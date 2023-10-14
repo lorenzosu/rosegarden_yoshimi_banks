@@ -40,6 +40,7 @@ XML_TEMPLATE_STRING = """<rosegarden-data version="4-0.9.1">
 </rosegarden-data>
 """
 
+
 def make_bank_xml_element(bank_name, bank_num):
     """
     takes the bank name and the number (as in yoshimi) and creates
@@ -78,11 +79,11 @@ def make_bank_xml_element(bank_name, bank_num):
 
 def parse_arguments():
     """ Parse the command line arguments and returned the parsed argparse """
-    # Parse arguments in partigular root dir for banks and the output rgd file
+    # Parse arguments in particular root dir for banks and the output rgd file
     arg_parser = argparse.ArgumentParser(
         description=(
             "A script to generate Rosegarden .rgd instrument files pasring "
-            "the direcory structure of Yoshimi banks"
+            "the directory structure of Yoshimi banks"
         )
     )
     arg_parser.add_argument("bank_root_dir")
@@ -91,25 +92,26 @@ def parse_arguments():
         '--xml',
         action='store_true',
         help=(
-            "also output the actual genrated xml file for debugging pourposes"
+            "also output the actual generated xml file for debugging pourposes"
         )
     )
     return arg_parser.parse_args()
 
-
 if __name__ == "__main__":
-    logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+    logging.basicConfig(
+        format='%(levelname)s: %(message)s',
+        level=logging.INFO)
 
     args = parse_arguments()
 
     bank_root_dir = args.bank_root_dir
     out_file = args.output_rgd_file
-  
+
     logging.info("Searching and parsing banks in %s", bank_root_dir)
 
     # Set-up XML file including the header template with initial <control> tags
     xml_string = io.StringIO(XML_TEMPLATE_STRING)
-    # The parserr stuff just to preserve comments in the template string :|
+    # The parser stuff just to preserve comments in the template string :|
     # See docs for xml.etree.ElementTree.TreeBuilder
     tree = ET.parse(
         xml_string,
@@ -125,7 +127,7 @@ if __name__ == "__main__":
 
     # Currently the default official banks released with Yoshimi seem to go in
     # multiples of 5. So for example 5. Arpeggios, 10. Bass and so on...
-    # we increas the number of 5 and assign that as the MIDI bank MSB
+    # we increase the number of 5 and assign that as the MIDI bank MSB
     # This 'interval' is defined by the STEP variable here.
     STEP = 5
     THIS_NUM = 0
