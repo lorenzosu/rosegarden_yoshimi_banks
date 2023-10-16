@@ -40,7 +40,6 @@ XML_TEMPLATE_STRING = """<rosegarden-data version="4-0.9.1">
 </rosegarden-data>
 """
 
-
 def make_bank_xml_element(bank_name, bank_num):
     """
     takes the bank name and the number (as in yoshimi) and creates
@@ -109,7 +108,7 @@ if __name__ == "__main__":
 
     logging.info("Searching and parsing banks in %s", bank_root_dir)
 
-    # Set-up XML file including the header template with initial <control> tags
+    # Set-up XML file including header template with initial <control> tags
     xml_string = io.StringIO(XML_TEMPLATE_STRING)
     # The parser stuff just to preserve comments in the template string :|
     # See docs for xml.etree.ElementTree.TreeBuilder
@@ -142,7 +141,9 @@ if __name__ == "__main__":
             this_name,
             str(THIS_NUM)
             )
-        comment = ET.Comment(f' Bank Name: {this_name} - Bank num: {THIS_NUM}')
+        comment = ET.Comment(
+            f' Bank Name: {this_name} - Bank num: {THIS_NUM}'
+        )
         device_el.insert(THIS_NUM, comment)
         device_el.append(new_bank_el)
 
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     with open(xml_file, 'rb') as f_in, gzip.open(out_file, 'wb') as f_out:
         shutil.copyfileobj(f_in, f_out)
 
-    # If the --xml flag was given also keep and save the uncmopressed XML file
+    # If --xml cli flag given, also keep and save the uncmopressed XML file
     # useful to debug the xml output e.g. in a text editor
     if args.xml:
         XML_FILE = 'rgd_yoshimi_banks.xml'
