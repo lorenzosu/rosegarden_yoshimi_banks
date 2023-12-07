@@ -26,7 +26,7 @@ XML_TEMPLATE_STRING = """<rosegarden-data version="4-0.9.1">
         <control name="Volume" type="controller" description="&lt;none&gt;" min="0" max="127" default="100" controllervalue="7" colourindex="1" ipbposition="2"/>
         <control name="Reverb" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="91" colourindex="3" ipbposition="3"/>
         <control name="Sustain" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="64" colourindex="4" ipbposition="-1"/>
-        <control name="Expression" type="controller" description="&lt;none&gt;" min="0" max="127" default="100" controllervalue="11" colourindex="2" ipbposition="-1"/>
+        <control name="Expression" type="controller" description="&lt;none&gt;" min="0" max="127" default="127" controllervalue="11" colourindex="2" ipbposition="-1" />
         <control name="Modulation" type="controller" description="&lt;none&gt;" min="0" max="127" default="0" controllervalue="1" colourindex="4" ipbposition="-1"/>
         <control name="Cutoff Freq" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="74" colourindex="2" ipbposition="2"/>
         <control name="Resonance" type="controller" description="&lt;none&gt;" min="0" max="127" default="64" controllervalue="71" colourindex="2" ipbposition="2"/>
